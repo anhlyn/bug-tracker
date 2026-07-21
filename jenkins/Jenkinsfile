@@ -5,6 +5,10 @@ pipeline {
         }
     }
 
+    environment{
+        GOCACHE = "${WORKSPACE}/.cache"
+    }
+
     stages{
         stage('Check go version'){
             steps{
