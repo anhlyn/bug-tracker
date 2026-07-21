@@ -1,15 +1,12 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Stage - 01 - from SCM - jenkins/Jenkinsfile') {
-            steps {
-                echo 'this is stage 01'
-            }
-        }
-        stage('Stage - 02'){
+    stages{
+        stage('Backend - Running Unit Test'){
             steps{
-                echo 'this is stage 02'
+                dir('bugtracker-backend'){
+                    sh 'go test ./… -v'
+                }
             }
         }
     }
