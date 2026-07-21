@@ -1,14 +1,28 @@
 pipeline {
     agent{
         docker{
-            image 'golang:1.22-alpine'
+            image 'golang:1.21-alpine'
         }
     }
 
     stages{
-        stage('Check and download go'){
+        stage('Check go version'){
             steps{
-               sh 'go version'
+               sh 'go version' 
+            }
+        }
+        stage('Download dependencies'){
+            steps{
+                dir('bugtracker-backend'){
+                    sh 'go mod download'
+               }
+            }
+        }
+        stage('Running unit test'){
+            steps{
+                dir('bugtracker-backend'){
+                    sh 'go test ./... -v'
+                }
             }
         }
     }
