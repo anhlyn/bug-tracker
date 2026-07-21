@@ -5,6 +5,8 @@ pipeline {
         stage('Backend - Running Unit Test'){
             steps{
                 dir('bugtracker-backend'){
+                    sh 'install go'
+                    sh 'go mod download'
                     sh 'go test ./… -v'
                 }
             }
