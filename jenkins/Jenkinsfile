@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment{
+        GOPATH = "${WORKSPACE}/.go"
+        GOCACHE = "${WORKSPACE}/.cache"
+    }
+
     stages{
        stage('Unit Tests - Backend'){
             agent{
