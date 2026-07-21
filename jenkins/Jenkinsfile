@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Stage - 01 - from SCM - jenkins/Jenkinsfile') {
+            steps {
+                echo 'this is stage 01'
+            }
+        }
+        stage('Stage - 02'){
+            steps{
+                echo 'this is stage 02'
+            }
+        }
+    }
+}
