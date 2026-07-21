@@ -16,7 +16,7 @@ pipeline {
             }
             steps{
                 dir('bugtracker-backend'){
-                    sh 'go mode download'
+                    sh 'go mod download'
                     sh 'go test -v ./...'
                 }
             }
