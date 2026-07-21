@@ -3,20 +3,21 @@ pipeline {
 
     environment{
         GOPATH = "${WORKSPACE}/.go"
+        GOCACHE = "${WORKSPACE}/.cache"
     }
 
     stages{
        stage('Unit Tests - Backend'){
             agent{
                 docker{
-                    image 'snakee/golang-junit:1.12'
+                    image 'snakee/golang-junit:1.21'
                     reuseNode true
                 }
             }
             steps{
                 dir('bugtracker-backend'){
                     sh 'go mod download'
-                    sh 'GOCACHE=off go test -v ./...'
+                    sh 'go test -v ./...'
                 }
             }
        }
