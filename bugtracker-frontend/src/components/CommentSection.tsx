@@ -105,20 +105,30 @@ export default function CommentSection({
         {comments.length === 0 ? (
           <p>No comments yet.</p>
         ) : (
-          comments.map((comment: Comment) => (
-            <div key={comment.id} className="bg-gray-50 p-4 rounded-lg">
-              <div className="flex justify-between items-start">
-                <span className="font-medium">{comment.author}</span>
-                <span className="text-sm text-gray-500">
-                  {new Date(comment.createdAt).toLocaleString("en-US", {
-                    dateStyle: "short",
-                    timeStyle: "medium",
-                  })}
-                </span>
+          comments.map((comment: Comment) => {
+            const date = new Date(comment.createdAt);
+            const formattedDate = `${
+              date.getMonth() + 1
+            }/${date.getDate()}/${String(date.getFullYear()).slice(-2)}`;
+            const formattedTime = date.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: true,
+            });
+
+            return (
+              <div key={comment.id} className="bg-gray-50 p-4 rounded-lg">
+                <div className="flex justify-between items-start">
+                  <span className="font-medium">{comment.author}</span>
+                  <span className="text-sm text-gray-500">
+                    {formattedDate} {formattedTime}
+                  </span>
+                </div>
+                <p className="mt-2 text-gray-700">{comment.content}</p>
               </div>
-              <p className="mt-2 text-gray-700">{comment.content}</p>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>
