@@ -17,7 +17,7 @@ pipeline {
             steps{
                 dir('bugtracker-backend'){
                     sh 'go mod download'
-                    sh 'GOCACHE=off go test -v ./...'
+                    sh 'go test -v ./...'
                 }
             }
        }
