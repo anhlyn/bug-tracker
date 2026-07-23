@@ -39,6 +39,8 @@ pipeline {
        }
     }
     post{
-        junit 'bugtracker-frontend/test-results.xml'
+        success{
+            junit 'bugtracker-frontend/test-results.xml'
+        }
     }
 }
