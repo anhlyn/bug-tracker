@@ -236,7 +236,7 @@ describe("BugList", () => {
     });
 
     it("should display correct priority indicators", async () => {
-      expect(screen.getByText("High")).toHaveClass("bg-red-1001");
+      expect(screen.getByText("High")).toHaveClass("bg-red-100");
       expect(screen.getByText("Medium")).toHaveClass("bg-yellow-100");
     });
   });
