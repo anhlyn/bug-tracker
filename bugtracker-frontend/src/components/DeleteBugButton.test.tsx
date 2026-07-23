@@ -12,7 +12,7 @@ describe('DeleteBugButton', () => {
 
     it('should render the delete button', () => {
         render(<DeleteBugButton bugId={bugId} onDelete={mockOnDelete} />);
-        expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Delete1' })).toBeInTheDocument();
     });
 
     it('should call onDelete when the delete button is clicked', async () => {
