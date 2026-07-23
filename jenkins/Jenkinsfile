@@ -37,12 +37,12 @@ pipeline {
                 }
             }
        }
-       post{
-            always{
-                sh '''
-                    junit '/bugtracker-frontend/test-results.xml'
-                '''
-            }
-       }
+    }
+    post{
+        always{
+            sh '''
+                junit '/bugtracker-frontend/test-results.xml'
+            '''
+        }
     }
 }
