@@ -40,9 +40,7 @@ pipeline {
     }
     post{
         always{
-            sh '''
-                junit '/bugtracker-frontend/test-results.xml'
-            '''
+            junit '/bugtracker-frontend/test-results.xml'
         }
     }
 }
