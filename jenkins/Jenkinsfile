@@ -18,22 +18,23 @@ pipeline {
                 dir('bugtracker-backend'){
                     sh 'go mod download'
                     //sh 'go test -v ./...'
+                    //running unit test with go
                     sh 'go test ./... -v 2>&1 | go run github.com/jstemmer/go-junit-report/v2@latest > test-backend-results.xml'
+
+                    //run test coverage for backend
+                    sh 'go test -coverprofile=coverage.out -covermode=atomic ./...'
+                    //convert that test coverage result to html file
+                    sh 'go tool cover -html=coverage.out -o coverage.html'
+                    sh 'mkdir -p reports'
+                    sh 'mv coverage.html reports/coverage.html'
                 }
             }
             post{
                 always{
                     junit 'bugtracker-backend/test-backend-results.xml'
                     dir('bugtracker-backend'){
-                        //run test coverage for backend
-                        sh 'go test -coverprofile=coverage.out -covermode=atomic ./...'
-                        //convert that test coverage result to html file
-                        sh 'go tool cover -html=coverage.out -o coverage.html'
                         publishHTML(target: [
-                            allowMissing: false,
-                            alwaysLinkToLastBuild: true,
-                            keepAll: true, // Giữ lại lịch sử báo cáo của TẤT CẢ các lượt build
-                            reportDir: '.', // Thư mục chứa file HTML
+                            reportDir: 'reports/', // Thư mục chứa file HTML
                             reportFiles: 'coverage.html',
                             reportName: 'Code Coverage Report - Backend' // Tên hiển thị trên menu Jenkins
                         ])
