@@ -77,7 +77,7 @@ pipeline {
         stage('Mock Deploy'){
             agent{
                 docker{
-                    image 'alpine:3.23.5'
+                    image 'node:20-alpine'
                     reuseNode true
                 }
             }
