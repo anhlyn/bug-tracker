@@ -75,7 +75,9 @@ pipeline {
             }
         }
         stage('Mock Deploy'){
-            sh 'Mocking deploy here.'
+            steps{
+                sh 'Mocking deploy here.'
+            }
         }
     }
 }
