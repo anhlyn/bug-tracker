@@ -7,68 +7,72 @@ pipeline {
     }
 
     stages{
-       stage('Unit Tests - Backend'){
-            agent{
-                docker{
-                    image 'snakee/golang-junit:1.21'
-                    reuseNode true
-                }
-            }
-            steps{
-                dir('bugtracker-backend'){
-                    sh 'go mod download'
-                    //sh 'go test -v ./...'
-                    //running unit test with go
-                    sh 'go test ./... -v 2>&1 | go run github.com/jstemmer/go-junit-report/v2@latest > test-backend-results.xml'
+        stage('Unit Tests - Run Parallely'){
+            Parallely{
+                stage('Unit Tests - Backend'){
+                    agent{
+                        docker{
+                            image 'snakee/golang-junit:1.21'
+                            reuseNode true
+                        }
+                    }
+                    steps{
+                        dir('bugtracker-backend'){
+                            sh 'go mod download'
+                            //sh 'go test -v ./...'
+                            //running unit test with go
+                            sh 'go test ./... -v 2>&1 | go run github.com/jstemmer/go-junit-report/v2@latest > test-backend-results.xml'
 
-                    //run test coverage for backend
-                    sh 'go test -coverprofile=coverage.out -covermode=atomic ./...'
-                    //convert that test coverage result to html file
-                    sh 'go tool cover -html=coverage.out -o coverage.html'
-                    sh 'mkdir -p reports'
-                    sh 'mv coverage.html reports/coverage.html'
-                }
-            }
-            post{
-                always{
-                    junit 'bugtracker-backend/test-backend-results.xml'
-                    dir('bugtracker-backend'){
-                        publishHTML(target: [
-                            reportDir: 'reports/', // Thư mục chứa file HTML
-                            reportFiles: 'coverage.html',
-                            reportName: 'Code Coverage Report - Backend' // Tên hiển thị trên menu Jenkins
-                        ])
+                            //run test coverage for backend
+                            sh 'go test -coverprofile=coverage.out -covermode=atomic ./...'
+                            //convert that test coverage result to html file
+                            sh 'go tool cover -html=coverage.out -o coverage.html'
+                            sh 'mkdir -p reports'
+                            sh 'mv coverage.html reports/coverage.html'
+                        }
+                    }
+                    post{
+                        always{
+                            junit 'bugtracker-backend/test-backend-results.xml'
+                            dir('bugtracker-backend'){
+                                publishHTML(target: [
+                                    reportDir: 'reports/', // Thư mục chứa file HTML
+                                    reportFiles: 'coverage.html',
+                                    reportName: 'Code Coverage Report - Backend' // Tên hiển thị trên menu Jenkins
+                                ])
+                            }
+                        }
                     }
                 }
-            }
-       }
-       stage('Unit Tests - Frontend'){
-            agent{
-                docker{
-                    image 'node:20-alpine'
-                    reuseNode true
+                stage('Unit Tests - Frontend'){
+                        agent{
+                            docker{
+                                image 'node:20-alpine'
+                                reuseNode true
+                            }
+                        }
+                        steps{
+                            dir('bugtracker-frontend'){
+                                sh '''
+                                    npm ci
+                                    npm test
+                                '''
+                            }
+                        }
+                        post{
+                            always{
+                                junit 'bugtracker-frontend/test-results.xml'
+                                dir('bugtracker-frontend'){
+                                    publishHTML(target: [
+                                        reportDir: 'coverage/', // Thư mục chứa file HTML
+                                        reportFiles: 'index.html',
+                                        reportName: 'Code Coverage Report - Frontend' // Tên hiển thị trên menu Jenkins
+                                    ])
+                                }
+                            }
+                        }
                 }
             }
-            steps{
-                dir('bugtracker-frontend'){
-                    sh '''
-                        npm ci
-                        npm test
-                    '''
-                }
-            }
-            post{
-                always{
-                    junit 'bugtracker-frontend/test-results.xml'
-                    dir('bugtracker-frontend'){
-                        publishHTML(target: [
-                            reportDir: 'coverage/', // Thư mục chứa file HTML
-                            reportFiles: 'index.html',
-                            reportName: 'Code Coverage Report - Frontend' // Tên hiển thị trên menu Jenkins
-                        ])
-                    }
-                }
-            }
-       }
+        }
     }
 }
