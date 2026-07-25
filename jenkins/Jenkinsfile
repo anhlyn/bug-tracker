@@ -75,6 +75,7 @@ pipeline {
             }
         }
         stage('Mock Deploy'){
+            agent any
             steps{
                 sh 'Mocking deploy here.'
             }
