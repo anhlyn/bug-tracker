@@ -60,6 +60,13 @@ pipeline {
             post{
                 always{
                     junit 'bugtracker-frontend/test-results.xml'
+                    dir('bugtracker-frontend'){
+                        publishHTML(target: [
+                            reportDir: 'coverage/', // Thư mục chứa file HTML
+                            reportFiles: 'index.html',
+                            reportName: 'Code Coverage Report - Frontend' // Tên hiển thị trên menu Jenkins
+                        ])
+                    }
                 }
             }
        }
