@@ -74,5 +74,8 @@ pipeline {
                 }
             }
         }
+        stage('Mock Deploy'){
+            sh 'Mocking deploy here.'
+        }
     }
 }
