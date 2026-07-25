@@ -75,14 +75,8 @@ pipeline {
             }
         }
         stage('Mock Deploy'){
-            agent{
-                docker{
-                    image 'node:20-alpine'
-                    reuseNode true
-                }
-            }
             steps{
-                sh 'Mocking deploy here.'
+                sh 'echo "Mocking deploy here"'
             }
         }
     }
