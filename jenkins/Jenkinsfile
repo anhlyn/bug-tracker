@@ -25,19 +25,17 @@ pipeline {
                 always{
                     junit 'bugtracker-backend/test-backend-results.xml'
                     //run test coverage for backend
-                    dir('bugtrackend-backend'){
-                        sh 'go test -coverprofile=coverage.out -covermode=atomic ./…'
-                        //convert that test coverage result to html file
-                        sh 'go tool cover -html=coverage.out -o coverage.html'
-                        publishHTML(target: [
-                            allowMissing: false,
-                            alwaysLinkToLastBuild: true,
-                            keepAll: true, // Giữ lại lịch sử báo cáo của TẤT CẢ các lượt build
-                            reportDir: '.', // Thư mục chứa file HTML
-                            reportFiles: 'coverage.html',
-                            reportName: 'Go Code Coverage Report' // Tên hiển thị trên menu Jenkins
-                        ])
-                    }
+                    sh 'go test -coverprofile=coverage.out -covermode=atomic ./…'
+                    //convert that test coverage result to html file
+                    sh 'go tool cover -html=coverage.out -o coverage.html'
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true, // Giữ lại lịch sử báo cáo của TẤT CẢ các lượt build
+                        reportDir: '.', // Thư mục chứa file HTML
+                        reportFiles: 'coverage.html',
+                        reportName: 'Go Code Coverage Report' // Tên hiển thị trên menu Jenkins
+                    ])
                 }
             }
        }
