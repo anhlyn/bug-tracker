@@ -33,7 +33,7 @@ pipeline {
                             allowMissing: false,
                             alwaysLinkToLastBuild: true,
                             keepAll: true, // Giữ lại lịch sử báo cáo của TẤT CẢ các lượt build
-                            reportDir: 'bugtracker-backend', // Thư mục chứa file HTML
+                            reportDir: '.', // Thư mục chứa file HTML
                             reportFiles: 'coverage.html',
                             reportName: 'Go Code Coverage Report' // Tên hiển thị trên menu Jenkins
                         ])
