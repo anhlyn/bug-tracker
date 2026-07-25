@@ -17,7 +17,13 @@ pipeline {
             steps{
                 dir('bugtracker-backend'){
                     sh 'go mod download'
-                    sh 'go test -v ./...'
+                    //sh 'go test -v ./...'
+                    sh 'go test ./... -v 2>&1 | go run github.com/jstemmer/go-junit-report/v2@latest > test-backend-results.xml'
+                }
+            }
+            post{
+                always{
+                    junit 'bugtracker-backend/test-backend-results.xml'
                 }
             }
        }
