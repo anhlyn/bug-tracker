@@ -116,7 +116,7 @@ pipeline {
         stage('Playwright E2E Testing'){
             agent{
                 docker{
-                    image 'node:20-alpine'
+                    image 'mcr.microsoft.com/playwright:v1.50.0-jammy'
                     reuseNode true
                     args '--network host'
                 }
@@ -124,8 +124,6 @@ pipeline {
             steps{
                 dir('tests-e2e'){
                     sh '''
-                        npm ci
-                        npx playwright install
                         npx playwright test
                     '''
                 }
