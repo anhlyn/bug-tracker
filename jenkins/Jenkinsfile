@@ -74,7 +74,7 @@ pipeline {
                 }
             }
         }
-        stage('Launch application'){
+        stage('Start backend server | frontend server'){
             agent{
                 docker{
                     image 'docker:27.5.1'
@@ -87,9 +87,18 @@ pipeline {
                 sh 'docker ps'
             }
         }
-        stage('Mock Deploy'){
+        stage('Playwright API Testing'){
+            agent{
+                docker{
+                    image 'node:20-alpine'
+                    reuseNode true
+                }
+            }
             steps{
-                sh 'echo "Mocking deploy here"'
+                sh '''
+                    npm ci
+                    npx playwright test
+                '''
             }
         }
     }
