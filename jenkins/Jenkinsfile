@@ -103,6 +103,15 @@ pipeline {
                     '''
                 }
             }
+            post{
+                always{
+                    publishHTML(target:[
+                        reportDir: 'tests-api/playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'Report - Playwright API Testing'
+                    ])
+                }
+            }
         }
     }
     post{
