@@ -113,6 +113,33 @@ pipeline {
                 }
             }
         }
+        stage('Playwright E2E Testing'){
+            agent{
+                docker{
+                    image 'node:20-alpine'
+                    reuseNode true
+                    args '--network host'
+                }
+            }
+            steps{
+                sh '''
+                    npm ci
+                    npx playwright install
+                    npx playwright test
+                '''
+            }
+            post{
+                always{
+                    dir('tests-e2e'){
+                        publishHTML(target:[
+                            reportName: 'Report - Playwright E2E Testing',
+                            reportDir: 'playwright-report',
+                            reportFiles: 'index.html'
+                        ])
+                    }
+                }
+            }
+        }
     }
     post{
         always{
