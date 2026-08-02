@@ -146,15 +146,16 @@ pipeline {
                 docker{
                     image 'grafana/k6'
                     args '--entrypoint=""'
-                    args '--network host'
                     reuseNode true
                 }
             }
             steps{
-                dir('tests-perf'){
-                    sh '''
-                        k6 run script.js
-                    '''
+                script {
+                    docker.image('grafana/k6:latest').inside('--add-host=host.docker.internal:host-gateway') {
+                        dir('tests-perf'){
+                            sh 'k6 run script.js'
+                        }
+                    }
                 }
             }
         }
