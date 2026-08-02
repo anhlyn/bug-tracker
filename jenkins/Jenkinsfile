@@ -146,6 +146,7 @@ pipeline {
                 docker{
                     image 'grafana/k6'
                     args '--entrypoint=""'
+                    args '--network host'
                     reuseNode true
                 }
             }
