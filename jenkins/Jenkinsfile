@@ -145,6 +145,7 @@ pipeline {
             agent{
                 docker{
                     image 'grafana/k6'
+                    reuseNode true
                 }
             }
             steps{
