@@ -12,9 +12,6 @@ jobs:
         working-directory: bugtracker-frontend
     container:
       image: node:24-alpine
-    permissions:
-      contents: read
-      checks: write
 
     steps:
       - uses: actions/checkout@v4
