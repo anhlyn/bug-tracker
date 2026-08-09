@@ -50,7 +50,7 @@ jobs:
       - name: got test ...
         run: go test ./... -v
       - name: Upload backend unit coverage report
-        uses: actions/upload-artifacts@v4
+        uses: actions/upload-artifact@v4
         with:
           name: Report Backend - Coverage Code
           path: bugtracker-backend/coverage/index.html
