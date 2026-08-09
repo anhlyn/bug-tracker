@@ -11,7 +11,7 @@ jobs:
       run:
         working-directory: bugtracker-frontend
     container:
-      image: node:20-alpine
+      image: node:24-alpine
 
     steps:
       - uses: actions/checkout@v4
