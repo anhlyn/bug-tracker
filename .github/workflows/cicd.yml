@@ -27,11 +27,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Report Frontend - Unit Test result
-          path: /test-results.xml
+          path: bugtracker-frontend/test-results.xml
           retention-days: 3
       - name: Upload Code Coverage Frontend Report
         uses: actions/upload-artifact@v4
         with:
           name: Report Frontend - Coverage Code
-          path: /coverage/index.html
+          path: bugtracker-frontend/coverage/index.html
           retention-days: 3
