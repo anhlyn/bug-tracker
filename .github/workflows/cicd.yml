@@ -32,3 +32,20 @@ jobs:
           name: Report Frontend - Coverage Code
           path: bugtracker-frontend/coverage/index.html
           retention-days: 3
+
+  backend-unit-test:
+    name: Backend - Unit Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: bugtracker-backend
+    container:
+      image: snakee/golang-junit:1.21
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: go mod download
+        run: go mod download
+      - name: got test ...
+        run: go test ./... -v
