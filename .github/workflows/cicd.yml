@@ -6,20 +6,24 @@ on:
 jobs:
   frontend-unit-test:
     name: Frontend - Unit Test
+    needs: backend-unit-test
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: bugtracker-frontend
-    container:
-      image: node:24-alpine
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: npm ci
-        run: npm ci
-      - name: npm test
-        run: npm test
+      - name: Setup node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: bugtracker-frontend/package-lock.json
+
+      - name: Running frontend unit test
+        working-directory: bugtracker-frontend
+        run: |
+          npm ci
+          npm test
       - name: Publish Junit Test Results
         uses: actions/upload-artifact@v4
         with:
