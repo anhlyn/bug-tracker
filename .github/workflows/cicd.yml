@@ -23,14 +23,9 @@ jobs:
         run: npm ci
       - name: npm test
         run: npm test
-      - name: Install git into container image node 24 alpine
-        run: apk add --no-cache git
-      - name: Configure git safe directory
-        run: git config --global --add safe.directory /github/workspace
       - name: Publish Junit Test Results
-        if: always()
-        uses: dorny/test-reporter@v1
+        uses: actions/upload-artifact@v4
         with:
-          name: Frontend - Junit Test Results
+          name: Front end - Unit Test result
           path: bugtracker-frontend/test-results.xml
-          reporter: java-junit
+          retention-days: 30
