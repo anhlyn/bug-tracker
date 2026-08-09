@@ -5,6 +5,7 @@ on:
 
 jobs:
   frontend-unit-test:
+    name: Frontend - Unit Test
     runs-on: ubuntu-latest
     defaults:
       run:
