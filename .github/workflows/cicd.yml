@@ -12,6 +12,9 @@ jobs:
         working-directory: bugtracker-frontend
     container:
       image: node:24-alpine
+    permissions:
+      contents: read
+      checks: write
 
     steps:
       - uses: actions/checkout@v4
@@ -22,4 +25,8 @@ jobs:
         run: npm test
       - name: Publish Junit Test Results
         if: always()
-        run: junit 'bugtracker-frontend/test-results.xml'
+        uses: dorny/test-reporter@v1
+        with:
+          name: Frontend - Junit Test Results
+          path: bugtracker-frontend/test-results.xml
+          reporter: java-junit
