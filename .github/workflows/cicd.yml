@@ -25,11 +25,12 @@ jobs:
           npm ci
           npm test
       - name: Publish Junit Test Results
-        uses: actions/upload-artifact@v4
+        uses: dorny/test-reporter@v1
+        if: always()
         with:
           name: Report Frontend - Unit Test result
           path: bugtracker-frontend/test-results.xml
-          retention-days: 3
+          reporter: jest-junit
       - name: Upload Code Coverage Frontend Report
         uses: actions/upload-artifact@v4
         with:
