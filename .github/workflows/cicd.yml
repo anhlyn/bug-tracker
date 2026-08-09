@@ -26,6 +26,12 @@ jobs:
       - name: Publish Junit Test Results
         uses: actions/upload-artifact@v4
         with:
-          name: Front end - Unit Test result
-          path: bugtracker-frontend/test-results.xml
-          retention-days: 30
+          name: Report Frontend - Unit Test result
+          path: /test-results.xml
+          retention-days: 3
+      - name: Upload Code Coverage Frontend Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Report Frontend - Coverage Code
+          path: /coverage/index.html
+          retention-days: 3
