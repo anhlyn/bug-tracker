@@ -41,8 +41,6 @@ jobs:
   backend-unit-test:
     name: Backend - Unit Test
     runs-on: ubuntu-latest
-    container:
-      image: 'snakee/golang-junit:1.21'
     defaults:
       run:
         working-directory: bugtracker-backend
@@ -52,19 +50,18 @@ jobs:
 
       - name: go mod download
         run: go mod download
-      - name: Run test and generate JUnit XML
-        run: |
-          sh 'go test ./... -v 2>&1 | go run github.com/jstemmer/go-junit-report/v2@latest > test-backend-results.xml'
-          sh 'go test -coverprofile=coverage.out -covermode=atomic ./...'
-          sh 'go tool cover -html=coverage.out -o coverage.html'
-          sh 'mkdir -p reports'
-          sh 'mv coverage.html reports/coverage.html'
+
+      - name: Install go-junit-report
+        run: go install github.com/jstemmer/go-junit-report/v2@latest
+
+      - name: Execute Backend Unit Test
+        run: go test -v ./... 2>&1 | go-junit-report > test-results.xml
       - name: Publish Junit Test Result
         uses: dorny/test-reporter@v1
         if: always()
         with:
           name: Reprot Backend - Unit Test Result
-          path: bugtracker-backend/test-backend-result.xml
+          path: bugtracker-backend/test-results.xml
           reporter: jest-junit
       - name: Upload backend unit coverage report
         uses: actions/upload-artifact@v4
