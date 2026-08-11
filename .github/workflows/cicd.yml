@@ -28,7 +28,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Report Frontend - Unit Test result
+          name: Report Frontend - Unit Test Result
           path: bugtracker-frontend/test-results.xml
           reporter: jest-junit
       - name: Upload Code Coverage Frontend Report
@@ -41,23 +41,31 @@ jobs:
   backend-unit-test:
     name: Backend - Unit Test
     runs-on: ubuntu-latest
+    container:
+      image: 'snakee/golang-junit:1.21'
     defaults:
       run:
         working-directory: bugtracker-backend
 
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Set up go on ubuntu-latest
-        uses: actions/setup-go@v4
-        with:
-          go-version: "1.21"
-          cache-dependency-path: bugtracker-backend/go.sum
 
       - name: go mod download
         run: go mod download
-      - name: got test ...
-        run: go test ./... -v
+      - name: Run test and generate JUnit XML
+        run: |
+          sh 'go test ./... -v 2>&1 | go run github.com/jstemmer/go-junit-report/v2@latest > test-backend-results.xml'
+          sh 'go test -coverprofile=coverage.out -covermode=atomic ./...'
+          sh 'go tool cover -html=coverage.out -o coverage.html'
+          sh 'mkdir -p reports'
+          sh 'mv coverage.html reports/coverage.html'
+      - name: Publish Junit Test Result
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Reprot Backend - Unit Test Result
+          path: bugtracker-backend/test-backend-result.xml
+          reporter: jest-junit
       - name: Upload backend unit coverage report
         uses: actions/upload-artifact@v4
         with:
