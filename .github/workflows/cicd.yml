@@ -55,7 +55,13 @@ jobs:
         run: go install github.com/jstemmer/go-junit-report/v2@latest
 
       - name: Execute Backend Unit Test
-        run: go test -v ./... 2>&1 | $(go env GOPATH)/bin/go-junit-report > test-results.xml
+        run: |
+          go test -json -coverprofile=coverage.out -covermode=atomic ./...
+          go tool cover -func=coverage.out > coverage.txt
+          echo "BACKEND COVERAGE REPORT" >> $GITHUB_STEP_SUMMARY
+          cat coverage.txt >> $GITHUB_STEP_SUMMARY
+
+          go test -v ./... 2>&1 | $(go env GOPATH)/bin/go-junit-report > test-results.xml
       - name: Publish Junit Test Result
         uses: dorny/test-reporter@v1
         if: always()
