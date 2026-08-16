@@ -24,6 +24,10 @@ jobs:
         run: |
           npm ci
           npm test
+          npm test | tee full_output.txt
+          echo 'FRONTEND COVERAGE REPORT```' >> $GITHUB_STEP_SUMMARY
+          cat full_output.txt >> $GITHUB_STEP_SUMMARY
+          echo '```'
       - name: Publish Junit Test Results
         uses: dorny/test-reporter@v1
         if: always()
