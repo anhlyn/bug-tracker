@@ -69,7 +69,7 @@ jobs:
 
           go test -v ./... 2>&1 | $(go env GOPATH)/bin/go-junit-report > test-results.xml
       - name: hello here
-        run: echo "hello here..."
+        run: echo "hello here... hihi"
       - name: Publish Junit Test Result
         uses: dorny/test-reporter@v1
         if: always()
