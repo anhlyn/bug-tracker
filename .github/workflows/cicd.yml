@@ -66,6 +66,8 @@ jobs:
           cat coverage.txt >> $GITHUB_STEP_SUMMARY
 
           go test -v ./... 2>&1 | $(go env GOPATH)/bin/go-junit-report > test-results.xml
+      - name: hello here
+        run: echo "hello here..."
       - name: Publish Junit Test Result
         uses: dorny/test-reporter@v1
         if: always()
