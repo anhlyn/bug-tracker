@@ -33,7 +33,7 @@ jobs:
           echo '```'
 
           echo "report<<EOF" >> $GITHUB_OUTPUT
-          cat full_report.txt >> $GITHUB_OUTPUT
+          cat full_output.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Publish Junit Test Results
