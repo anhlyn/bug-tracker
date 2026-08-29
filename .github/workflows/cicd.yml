@@ -140,15 +140,19 @@ jobs:
 
       - name: npm ci
         working-directory: ./tests-api
-        run: npm ci
+        run: |
+          pwd
+          npm ci
       - name: Run api test
-        run: npx playwright test
+        working-directory: ./tests-api
+        run: |
+          pwd
+          npx playwright test
 
       - name: Shut down Servers after done API testing
-        run: docker compose down
-
-      - name: Print working directory
-        run: pwd
+        run: |
+          pwd
+          docker compose down
 
       - name: Upload API test result to github
         uses: actions/upload-artifact@v4
