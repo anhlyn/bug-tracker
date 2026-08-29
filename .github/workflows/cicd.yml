@@ -141,7 +141,15 @@ jobs:
         run: docker compose up -d
       - name: Checking api/health
         run: npx wait-port http://localhost:8080/api/health -t 30000
+
       - name: npm ci
         run: npm ci
       - name: Run api test
         run: npx playwright test
+
+      - name: Upload API test result to github
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'APT Test Result'
+          path: test-results
+          retentions: 30
