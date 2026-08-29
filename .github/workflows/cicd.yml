@@ -133,4 +133,7 @@ jobs:
       - name: Launch Servers Backend and Frontend
         run: |
           docker compose up -d
-          npx wait-on http://localhost:8080/api/health --timeout 30000
+      - name: Run api test
+        run: |
+          npm ci
+          npx playwright test
