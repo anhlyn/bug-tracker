@@ -147,6 +147,12 @@ jobs:
       - name: Run api test
         run: npx playwright test
 
+      - name: Shut down Servers after done API testing
+        run: docker compose down
+
+      - name: Print working directory
+        run: pwd
+
       - name: Upload API test result to github
         uses: actions/upload-artifact@v4
         with:
