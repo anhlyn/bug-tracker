@@ -215,3 +215,14 @@ jobs:
         run: |
           pwd
           docker compose down
+      - name: publish test-results to github action summary
+        uses: dorny/test-reporter@v1
+        with:
+          name: Test results XML
+          path: ./tests-e2e/test-results
+          reporter: jest-junit
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: E2E - upload artifact
+          path: ./tests-e2e/playwright-report
