@@ -176,3 +176,42 @@ jobs:
           name: 'API Test Report Using Dorny action'
           path: ./tests-api/test-results/*.xml
           reporter: jest-junit
+      
+  e2e-test:
+    name: Test E2E
+    runs-on: ubuntu-latest
+    needs: [api-test]
+    steps:
+      - name: checkout code from repo
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: turn on backend and frontend servers
+        run: |
+          pwd
+          docker compose up -d
+      - name: checking api health is working
+        run: |
+          pwd
+          npx wait-port http://localhost:8080/api/health -t 30000
+      - name: install dependencies of npm
+        working-directory: ./tests-e2e
+        run: |
+          pwd
+          npm ci
+      - name: install playwright browsers
+        working-directory: ./tests-e2e
+        run: |
+          pwd
+          npx playwright install
+      - name: run e2e test using playwright
+        working-directory: ./tests-e2e
+        run: |
+          pwd
+          npx playwright test
+      - name: shutdown servers
+        run: |
+          pwd
+          docker compose down
