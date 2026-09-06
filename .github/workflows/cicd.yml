@@ -219,7 +219,7 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
           name: Test results XML
-          path: ./tests-e2e/test-results
+          path: ./tests-e2e/test-results/*.xml
           reporter: jest-junit
       - name: upload artifact
         uses: actions/upload-artifact@v4
