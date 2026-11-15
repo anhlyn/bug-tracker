@@ -235,8 +235,18 @@ jobs:
     name: Test Performance
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code from repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: turn on backend and frontend servers
+        run: |
+          pwd
+          docker compose up -d
+      - name: checking api health is working
+        run: |
+          pwd
+          npx wait-port http://localhost:8080/api/health -t 30000
       - uses: grafana/setup-k6-action@v1
       - uses: grafana/run-k6-action@v1
         with:
