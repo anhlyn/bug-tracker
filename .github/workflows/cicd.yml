@@ -254,7 +254,8 @@ jobs:
           flag: --out json=summary.json
       - run: |
           pwd
-          cat summary.json
           ls -l
+          cd tests-perf
+          cat summary.json
       - name: shutdown servers
         run: docker compose down
