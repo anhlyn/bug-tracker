@@ -250,4 +250,4 @@ jobs:
       - uses: grafana/setup-k6-action@v1
       - uses: grafana/run-k6-action@v1
         with:
-          script: ./tests-perf/script.js
+          script: tests-perf/script.js
