@@ -252,11 +252,6 @@ jobs:
         with:
           path: tests-perf/script.js
           flag: --out json=summary.json
-      - run: |
-          pwd
-          ls -l
-          cd tests-perf
-          cat summary.json
       - name: shutdown servers
         run: docker compose down
       - name: upload Performanc JSON report
