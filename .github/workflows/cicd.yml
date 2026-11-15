@@ -259,3 +259,13 @@ jobs:
           cat summary.json
       - name: shutdown servers
         run: docker compose down
+      - name: upload Performanc JSON report
+        uses: actions/upload-artifact@v4
+        with:
+          name: upload Performanc json report
+          path: ./tests-perf/summary.json
+      - name: upload Performanc HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: upload Performanc json report
+          path: ./tests-perf/perf-results.html
