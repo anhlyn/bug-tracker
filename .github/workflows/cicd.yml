@@ -250,4 +250,7 @@ jobs:
       - uses: grafana/setup-k6-action@v1
       - uses: grafana/run-k6-action@v1
         with:
-          script: tests-perf/script.js
+          path: tests-perf/script.js
+          flag: --out json=summary.json
+      - name: shutdown servers
+        run: docker compose down
