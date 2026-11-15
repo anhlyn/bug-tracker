@@ -7,6 +7,7 @@ on:
 
 jobs:
   frontend-unit-test:
+    if: github.event_name == 'pull_request'
     name: Frontend - Unit Test
     runs-on: ubuntu-latest
     outputs:
@@ -51,6 +52,7 @@ jobs:
           retention-days: 3
 
   backend-unit-test:
+    if: github.event_name == 'pull_request'
     name: Backend - Unit Test
     runs-on: ubuntu-latest
     outputs:
@@ -123,6 +125,7 @@ jobs:
             ```
 
   api-test:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs: [frontend-unit-test, backend-unit-test]
     steps:
@@ -178,6 +181,7 @@ jobs:
           reporter: jest-junit
       
   e2e-test:
+    if: github.event_name == 'pull_request'
     name: Test E2E
     runs-on: ubuntu-latest
     needs: [api-test]
